@@ -20,3 +20,14 @@ spec:
     image: golang:1.15-buster
     command: ['cat']
     tty: true
+  - name: docker
+    image: docker:stable
+    command: ['cat']
+    tty: true
+    volumeMounts:
+    - name: dockersock
+      mountPath: /var/run/docker.sock
+  volumes:
+  - name: dockersock
+    hostPath:
+      path: /var/run/docker.sock
