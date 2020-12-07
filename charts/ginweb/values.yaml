@@ -10,7 +10,8 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
-imagePullSecrets: ["jenkins-harbor",]
+imagePullSecrets:
+  - name: jenkins-harbor
 nameOverride: ""
 fullnameOverride: ""
 
