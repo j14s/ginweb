@@ -1,0 +1,57 @@
+pipeline {
+
+  agent {
+    kubernetes {
+      label 'ginweb-chart'
+      defaultContainer 'jnlp'
+      yamlFile 'KubernetesPod.yaml'
+    }
+  }
+
+  options {
+    buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')
+    disableConcurrentBuilds()
+  }
+
+  // triggers {
+  //   pollSCM '* * * * *'
+  // }
+
+  stages {
+    stage('Init') {
+      steps {
+        container('git') {
+          script {
+            VERSION = sh(returnStdout: true, script: "git describe --always --long --dirty").trim()
+          }
+          echo "Starting container chart mod and deploy"
+        }
+      }
+    }
+
+    stage('test') {
+      steps {
+        container('helm') {
+            sh "helm lint charts/ginweb"
+        }
+      }
+    }
+
+    stage('chart') {
+      steps {
+        container('helm') {
+          sh "helm repo update"
+          sh "helm push charts/ginweb c7d"
+        }
+      }
+    }
+
+    stage('Finished') {
+      steps {
+        container('busybox') {
+          echo "Finished"
+        }
+      }
+    }
+  }
+}
