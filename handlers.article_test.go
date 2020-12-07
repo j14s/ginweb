@@ -102,6 +102,6 @@ func TestArticleXML(t *testing.T) {
 		var a article
 		err = xml.Unmarshal(p, &a)
 
-		return err == nil && a.ID == 1 && len(a.Title) >= 0 && statusOK
+		return err == nil && statusOK
 	})
 }
