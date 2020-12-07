@@ -63,28 +63,29 @@ pipeline {
       }
     }
 
-    // stage('deploy') {
-    //   steps {
-    //     container('helm') {
-    //       sh "helm repo update"
-    //       sh "helm search repo c7d/smokeping --version ${VERSION}"
-    //       withKubeConfig([credentialsId: 'c7d-deploy']) {
-    //       sh """#!/bin/bash
+    stage('deploy') {
+      steps {
+        container('helm') {
+          sh "helm repo update"
+          sh "helm search repo c7d/ginweb --version 0.1.1"
+          withKubeConfig([credentialsId: 'c7d-deploy']) {
+          sh """#!/bin/bash
 
-    //         echo "VERSION: ${VERSION}"
-    //         helm upgrade  --kube-context c7d \
-    //                       --namespace smokeping \
-    //                       --reset-values --install \
-    //                       --wait --timeout 300s \
-    //                       --version ${VERSION} \
-    //                       smokeping \
-    //                       c7d/smokeping
+            echo "VERSION: 0.1.1"
+            helm upgrade  --kube-context c7d \
+                          --namespace ginweb \
+                          --reset-values --install \
+                          --wait --timeout 300s \
+                          --version 0.1.1 \
+                          --set image.tag=${VERSION}
+                          ginweb \
+                          c7d/ginweb
 
-    //       """
-    //       }
-    //     }
-    //   }
-    // }
+          """
+          }
+        }
+      }
+    }
 
     stage('Finished') {
       steps {
