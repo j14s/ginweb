@@ -77,7 +77,7 @@ pipeline {
                           --reset-values --install \
                           --wait --timeout 300s \
                           --version 0.1.1 \
-                          --set image.tag=${VERSION}
+                          --set image.tag=${VERSION} \
                           ginweb \
                           c7d/ginweb
 
