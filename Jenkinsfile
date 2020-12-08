@@ -67,16 +67,16 @@ pipeline {
       steps {
         container('helm') {
           sh "helm repo update"
-          sh "helm search repo c7d/ginweb --version 0.1.2"
+          sh "helm search repo c7d/ginweb --version 0.1.4"
           withKubeConfig([credentialsId: 'c7d-deploy']) {
           sh """#!/bin/bash
 
-            echo "VERSION: 0.1.2"
+            echo "VERSION: 0.1.4"
             helm upgrade  --kube-context c7d \
                           --namespace ginweb \
                           --reset-values --install \
                           --wait --timeout 300s \
-                          --version 0.1.2 \
+                          --version 0.1.4 \
                           --set image.tag=${VERSION} \
                           ginweb \
                           c7d/ginweb
