@@ -1,6 +1,6 @@
 FROM alpine:latest
 COPY ginweb /
-COPY templates /
+COPY templates /templates
 
 EXPOSE 5000
 ENTRYPOINT ["/ginweb"]
