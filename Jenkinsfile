@@ -48,7 +48,7 @@ pipeline {
       steps {
         container('kaniko') {
           sh '''
-
+            echo ${VERSION}
             IMAGE_ID=core.c7d.net/c7d/ginweb && \
             export DOCKER_CONFIG=/kaniko/.docker && \
             /kaniko/executor \
