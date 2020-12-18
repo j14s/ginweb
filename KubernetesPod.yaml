@@ -20,14 +20,17 @@ spec:
     image: golang:1.15-buster
     command: ['cat']
     tty: true
-  - name: docker
-    image: docker:stable
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug
     command: ['cat']
     tty: true
     volumeMounts:
-    - name: dockersock
-      mountPath: /var/run/docker.sock
+      - name: jenkins-docker-config-volume
+        mountPath: /kaniko/.docker
   volumes:
-  - name: dockersock
-    hostPath:
-      path: /var/run/docker.sock
+  - name: jenkins-docker-config-volume
+    secret:
+      secretName: jenkins-harbor
+      items:
+      - key: .dockerconfigjson
+        path: config.json

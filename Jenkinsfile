@@ -54,11 +54,26 @@ pipeline {
       }
     }
 
+    // stage('Container') {
+    //   steps {
+    //     container('docker') {
+    //       sh "docker build -t core.c7d.net/c7d/ginweb:${VERSION} --network=host ."
+    //       sh "docker push core.c7d.net/c7d/ginweb:${VERSION}"
+    //     }
+    //   }
+    // }
     stage('Container') {
       steps {
-        container('docker') {
-          sh "docker build -t core.c7d.net/c7d/ginweb:${VERSION} --network=host ."
-          sh "docker push core.c7d.net/c7d/ginweb:${VERSION}"
+        container('kaniko') {
+          sh '''
+            IMAGE_ID=core.c7d.net/c7d/ginweb && \
+            export DOCKER_CONFIG=/kaniko/.docker && \
+            /kaniko/executor \
+            --context $(pwd) \
+            --dockerfile $(pwd)/Dockerfile \
+            --destination $IMAGE_ID:$VERSION \
+            --force
+          '''
         }
       }
     }
