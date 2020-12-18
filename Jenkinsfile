@@ -44,24 +44,6 @@ pipeline {
       }
     }
 
-    stage('Docker Login') {
-      steps {
-        container('docker') {
-          withCredentials([usernamePassword(credentialsId: 'jenkins-harbor', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]){
-            sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} core.c7d.net/c7d"
-          }
-        }
-      }
-    }
-
-    // stage('Container') {
-    //   steps {
-    //     container('docker') {
-    //       sh "docker build -t core.c7d.net/c7d/ginweb:${VERSION} --network=host ."
-    //       sh "docker push core.c7d.net/c7d/ginweb:${VERSION}"
-    //     }
-    //   }
-    // }
     stage('Container') {
       steps {
         container('kaniko') {
