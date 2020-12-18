@@ -47,15 +47,16 @@ pipeline {
     stage('Container') {
       steps {
         container('kaniko') {
-          sh '''
+          sh """#!/bin/bash
+
             IMAGE_ID=core.c7d.net/c7d/ginweb && \
             export DOCKER_CONFIG=/kaniko/.docker && \
             /kaniko/executor \
-            --context $(pwd) \
-            --dockerfile $(pwd)/Dockerfile \
-            --destination $IMAGE_ID:$VERSION \
-            --force
-          '''
+              --context $(pwd) \
+              --dockerfile $(pwd)/Dockerfile \
+              --destination ${IMAGE_ID}:${VERSION} \
+              --force
+          """
         }
       }
     }
