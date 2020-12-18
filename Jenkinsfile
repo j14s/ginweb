@@ -48,13 +48,13 @@ pipeline {
       steps {
         container('kaniko') {
           sh """
-            echo ${VERSION}
+            echo \${VERSION}
             IMAGE_ID=core.c7d.net/c7d/ginweb && \
             export DOCKER_CONFIG=/kaniko/.docker && \
             /kaniko/executor \
               --context $(pwd) \
               --dockerfile $(pwd)/Dockerfile \
-              --destination ${IMAGE_ID}:${VERSION} \
+              --destination \${IMAGE_ID}:\${VERSION} \
               --force
           """
         }
