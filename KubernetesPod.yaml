@@ -17,7 +17,7 @@ spec:
     command: ['cat']
     tty: true
   - name: golang
-    image: golang:1.15-buster
+    image: golang:1.16.3-buster
     command: ['cat']
     tty: true
   - name: kaniko
